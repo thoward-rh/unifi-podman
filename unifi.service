@@ -1,0 +1,9 @@
+[Unit]
+Description=Unifi Podman container
+Wants=syslog.service
+[Service]
+Restart=always
+ExecStart=/usr/bin/podman run --rm -p 8080:8080 -p 8443:8443 -p 3478:3478/udp -p 10001:10001/udp -v "/data/unifi:/unifi:Z" --hostname="hostname.example.com" --memory=2048M -e TZ="Asia/Bangkok" -e UNIFI_UID="1000" -e UNIFI_GID="1000" --name unifi docker.io/jacobalberty/unifi:latest
+ExecStop=/usr/bin/podman stop unifi
+[Install]
+WantedBy=multi-user.target
